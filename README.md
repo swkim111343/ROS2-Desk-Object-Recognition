@@ -1,43 +1,48 @@
-# ROS2 Desk Object Recognition
+# ROS2 기반 손가락 포인팅을 이용한 책상 위 사물 인식 및 데이터베이스 저장 시스템
 
-## 1. Project Title
+## 1. 작품명
 
-C++-Based ROS2 Desk Object Recognition and Database Management System Using YOLO and MediaPipe
+ROS2 기반 YOLO·MediaPipe 융합형 책상 위 사물 인식 및 데이터베이스 관리 시스템
 
-## 2. Project Description
+## 2. 작품설명
 
-This project is a ROS2-based desk object recognition system implemented in C++.
+본 작품은 USB 카메라를 이용하여 책상 위에 놓인 사물을 실시간으로 인식하고, 사용자가 손가락으로 특정 사물을 가리키면 해당 사물의 정보를 데이터베이스에 자동으로 저장하는 시스템이다.
 
-A USB camera captures objects on a desk, and YOLO detects objects and their bounding boxes. MediaPipe Hands tracks hand landmarks and extracts fingertip coordinates.
+YOLO 객체 인식 모델을 활용하여 책상 위의 사물 종류와 위치를 탐지하고, 바운딩 박스(Bounding Box)를 통해 객체의 영역을 표시한다.
 
-When a user points at an object with their index finger, the system identifies the selected object by comparing the fingertip coordinates with the object's bounding box.
+동시에 MediaPipe Hands를 활용하여 사용자의 손을 추적하고 검지 끝(Fingertip)의 좌표를 추출한다. 검지 끝 좌표가 YOLO가 탐지한 특정 객체의 바운딩 박스 내부에 위치하면 해당 객체를 사용자가 선택한 것으로 판단한다.
 
-The selected object's information, including its name, confidence score, coordinates, and selection time, is automatically stored in an SQLite database.
+선택된 객체의 이름, 인식 신뢰도, 좌표 및 선택 시간 등의 정보를 SQLite 데이터베이스에 저장한다.
 
-## 3. Motivation
+또한 ROS2의 노드와 토픽 통신 구조를 적용하여 카메라 영상 처리, 객체 인식, 손가락 추적, 객체 선택 및 데이터베이스 저장 기능을 모듈별로 구성한다.
 
-- To combine AI-based object detection with computer vision.
-- To provide an intuitive object selection method using finger pointing.
-- To learn and apply ROS2 node-based communication and system integration.
-- To build a system that manages recognized object information using a database.
+## 3. 선정이유
 
-## 4. Technologies
+최근 인공지능 기반 객체 인식 기술과 컴퓨터 비전 기술은 자율주행, 스마트 팩토리, 로봇 제어 및 지능형 자동화 시스템 등 다양한 분야에서 활용되고 있다.
 
-- C++
-- ROS2 Jazzy
-- Ubuntu 24.04
-- OpenCV
-- YOLOv8n
-- MediaPipe Hands
-- SQLite
-- CMake
-- colcon
+본 작품은 YOLO와 MediaPipe를 결합하여 단순한 객체 인식에서 한 단계 발전한 사용자 상호작용 시스템을 구현하고자 선정하였다.
 
-## 5. Main Features
+특히 별도의 키보드나 마우스 입력 없이 손가락으로 사물을 가리키는 동작만으로 객체를 선택하고 정보를 저장할 수 있다는 점에서 직관적인 사용자 인터페이스를 제공할 수 있다.
 
-1. USB camera image acquisition
-2. Object detection using YOLO
-3. Hand landmark detection using MediaPipe
-4. Fingertip-based object selection
-5. Object information storage in SQLite
-6. ROS2-based modular communication
+또한 ROS2의 노드 및 토픽 통신 구조를 활용하여 영상 처리와 인식 기능을 분리하고, 향후 로봇 및 지능형 자동화 시스템으로 확장할 수 있도록 설계하고자 한다.
+
+## 4. 필요기술
+
+| 기술 | 활용 목적 |
+|---|---|
+| ROS2 Jazzy | 시스템 노드 구성 및 노드 간 데이터 통신 |
+| Python | 전체 프로그램 및 알고리즘 구현 |
+| OpenCV | USB 카메라 영상 수신 및 영상 처리 |
+| YOLOv8n | 책상 위 사물의 종류 및 위치 인식 |
+| MediaPipe Hands | 손 추적 및 검지 끝 좌표 추출 |
+| SQLite | 선택된 사물 정보 데이터베이스 저장 |
+
+### 주요 구현 기능
+
+1. USB 카메라를 통한 실시간 영상 수신
+2. YOLO를 이용한 책상 위 사물 인식 및 바운딩 박스 표시
+3. MediaPipe를 이용한 손 추적 및 검지 끝 좌표 추출
+4. 손가락 좌표와 객체 바운딩 박스의 위치 비교
+5. 손가락으로 가리킨 객체 자동 선택
+6. 선택된 객체의 정보 및 시간 데이터베이스 저장
+7. ROS2 노드와 토픽을 이용한 모듈 간 데이터 통신
